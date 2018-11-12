@@ -13,6 +13,9 @@
 #import "UIColor+NoticeCategory.h"
 #import "Masonry.h"
 
+#import "NoticeInterfaceMacro.h"
+#import "NoticeInterfaceRequest.h"
+
 static NSString *const NoticeCellID = @"NoticeCellID";
 
 @interface NoticeListViewController ()<
@@ -22,6 +25,7 @@ UISearchBarDelegate>
 
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) UISearchBar *searchBar;
+@property (nonatomic, strong) NSMutableArray *dataArray;
 
 @end
 
@@ -32,6 +36,11 @@ UISearchBarDelegate>
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"通知";
     [self configUI];
+    [self requestNoticelist];
+}
+
+- (void)setToken:(NSString *)token {
+    [[NSUserDefaults standardUserDefaults] setObject:token forKey:NoticeToken];
 }
 
 - (void)configUI {
@@ -72,7 +81,7 @@ UISearchBarDelegate>
 
 #pragma mark - TableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 20;
+    return self.dataArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -82,15 +91,17 @@ UISearchBarDelegate>
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = [UIColor colorWithHex:@"#EBEBF1"];
-    cell.timeLabel.text = @"08-11 15:30";
-    cell.authorLabel.text = @"发布人：管理员";
-    cell.titleLabel.text = @"教育局教育局转发渭南市教育局人社局关于做好第十一批陕西省特级教师评选的级评工作工作";
+    NoticelistModel *model = self.dataArray[indexPath.row];
+    cell.timeLabel.text = model.createTime;
+    cell.authorLabel.text = [NSString stringWithFormat:@"发布人：%@",model.userName];
+    cell.titleLabel.text = model.title;
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NoticeDetailViewController *noticeDetailVC = [[NoticeDetailViewController alloc]init];
+    noticeDetailVC.model = self.dataArray[indexPath.row];
     [self.navigationController pushViewController:noticeDetailVC animated:YES];
 }
 
@@ -109,4 +120,11 @@ UISearchBarDelegate>
     [self.searchBar resignFirstResponder];
 }
 
+#pragma mark - 网络请求
+- (void)requestNoticelist {
+    [NoticeInterfaceRequest requestNoticeList:noticelistParam(@"1", @"10", @"", @"", @[], @"") success:^(id json) {
+        self.dataArray = json;
+        [self.myTableView reloadData];
+    } failed:^(NSError *error) {}];
+}
 @end

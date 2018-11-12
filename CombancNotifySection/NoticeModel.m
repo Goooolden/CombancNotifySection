@@ -7,7 +7,22 @@
 //
 
 #import "NoticeModel.h"
+#import "MJExtension.h"
 
 @implementation NoticeModel
+
+@end
+
+@implementation NoticelistModel
+
++ (NSDictionary *)mj_objectClassInArray {
+    return @{@"files":@"NoticeFileImgsModel",
+             @"imgs":@"NoticeFileImgsModel"
+             };
+}
+
+@end
+
+@implementation NoticeFileImgsModel
 
 @end

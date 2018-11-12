@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NoticeModel.h"
 
 @interface NoticeDetailViewController : UIViewController
+
+@property (nonatomic, strong) NoticelistModel *model;
 
 @end
