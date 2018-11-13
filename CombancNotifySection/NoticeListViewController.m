@@ -70,7 +70,7 @@ UISearchBarDelegate>
     [self.view addSubview:self.searchBar];
     
     [self.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top).offset(64);
+        make.top.equalTo(self.view.mas_top).offset(0);
         make.left.right.equalTo(self.view);
     }];
     [self.myTableView mas_makeConstraints:^(MASConstraintMaker *make) {
