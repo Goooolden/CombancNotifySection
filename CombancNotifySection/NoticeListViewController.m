@@ -12,6 +12,7 @@
 #import "NoticeModel.h"
 #import "UIColor+NoticeCategory.h"
 #import "Masonry.h"
+#import "MJRefresh.h"
 
 #import "NoticeInterfaceMacro.h"
 #import "NoticeInterfaceRequest.h"
@@ -26,6 +27,8 @@ UISearchBarDelegate>
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, assign) NSInteger page;
+@property (nonatomic, assign) NSInteger pageSize;
 
 @end
 
@@ -35,8 +38,23 @@ UISearchBarDelegate>
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"通知";
+    self.page = 1;
+    self.pageSize = 10;
     [self configUI];
-    [self requestNoticelist];
+    [self requestNoticelist:@""];
+    [self createRefresh];
+}
+
+- (void)createRefresh {
+    self.myTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        self.pageSize = 10;
+        [self requestNoticelist:@""];
+    }];
+    
+    self.myTableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        self.pageSize += 10;
+        [self requestNoticelist:@""];
+    }];
 }
 
 - (void)setToken:(NSString *)token {
@@ -114,17 +132,24 @@ UISearchBarDelegate>
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     [self.searchBar resignFirstResponder];
     [self.searchBar setShowsCancelButton:NO animated:YES];
+    [self requestNoticelist:@""];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [self.searchBar resignFirstResponder];
+    [self requestNoticelist:searchBar.text];
 }
 
 #pragma mark - 网络请求
-- (void)requestNoticelist {
-    [NoticeInterfaceRequest requestNoticeList:noticelistParam(@"1", @"10", @"", @"", @[], @"") success:^(id json) {
+- (void)requestNoticelist:(NSString *)search {
+    [NoticeInterfaceRequest requestNoticeList:noticelistParam([@(self.page) description], [@(self.pageSize) description], @"", @"", @[], search) success:^(id json) {
         self.dataArray = json;
         [self.myTableView reloadData];
-    } failed:^(NSError *error) {}];
+        [self.myTableView.mj_header endRefreshing];
+        [self.myTableView.mj_footer endRefreshing];
+    } failed:^(NSError *error) {
+        [self.myTableView.mj_header endRefreshing];
+        [self.myTableView.mj_footer endRefreshing];
+    }];
 }
 @end

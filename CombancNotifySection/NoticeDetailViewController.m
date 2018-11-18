@@ -24,6 +24,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self configUI];
     [self reloadData];
+    self.title = @"详情";
 }
 
 - (void)configUI {
