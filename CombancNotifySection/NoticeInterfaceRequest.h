@@ -14,4 +14,6 @@ typedef void(^RequestFailed)(NSError *error);
 
 + (void)requestNoticeList:(NSDictionary *)param success:(RequestSucess)success failed:(RequestFailed)failed;
 
++ (void)requestPublicNoticeList:(NSDictionary *)param success:(RequestSucess)success failed:(RequestFailed)failed;
+
 @end

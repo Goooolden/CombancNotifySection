@@ -142,14 +142,32 @@ UISearchBarDelegate>
 
 #pragma mark - 网络请求
 - (void)requestNoticelist:(NSString *)search {
-    [NoticeInterfaceRequest requestNoticeList:noticelistParam([@(self.page) description], [@(self.pageSize) description], @"", @"", @[], search) success:^(id json) {
-        self.dataArray = json;
-        [self.myTableView reloadData];
+    if (self.noticeType == AllNoticeType) {
+        //通知
+        [NoticeInterfaceRequest requestPublicNoticeList:GetMessageListParameter(@"2",[@(self.page) description], [@(self.pageSize) description], @"", @"", search) success:^(id json) {
+            self.dataArray = json;
+            [self.myTableView reloadData];
+            [self.myTableView.mj_header endRefreshing];
+            [self.myTableView.mj_footer endRefreshing];
+        } failed:^(NSError *error) {
+            [self.myTableView.mj_header endRefreshing];
+            [self.myTableView.mj_footer endRefreshing];
+        }];
         [self.myTableView.mj_header endRefreshing];
         [self.myTableView.mj_footer endRefreshing];
-    } failed:^(NSError *error) {
+    }else if (self.noticeType == PublicNoticeType) {
+        //公告
+        [NoticeInterfaceRequest requestNoticeList:noticelistParam([@(self.page) description], [@(self.pageSize) description], @"", @"", @[], search) success:^(id json) {
+            self.dataArray = json;
+            [self.myTableView reloadData];
+            [self.myTableView.mj_header endRefreshing];
+            [self.myTableView.mj_footer endRefreshing];
+        } failed:^(NSError *error) {
+            [self.myTableView.mj_header endRefreshing];
+            [self.myTableView.mj_footer endRefreshing];
+        }];
         [self.myTableView.mj_header endRefreshing];
         [self.myTableView.mj_footer endRefreshing];
-    }];
+    }
 }
 @end

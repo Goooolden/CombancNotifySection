@@ -20,7 +20,17 @@
             success(dataArray);
         }
     } failure:^(NSError *error) {
-        
+        failed(error);
+    }];
+}
++ (void)requestPublicNoticeList:(NSDictionary *)param success:(RequestSucess)success failed:(RequestFailed)failed {
+    [HTTPTool postWithURL:GetMessageList headers:header(MyToken) params:param success:^(id json) {
+        if([[NoticeInterfaceRequest new] isRequestSuccess:json]) {
+            NSArray *dataArray = [NoticelistModel mj_objectArrayWithKeyValuesArray:json[@"data"][@"list"]];
+            success(dataArray);
+        }
+    } failure:^(NSError *error) {
+        failed(error);
     }];
 }
 

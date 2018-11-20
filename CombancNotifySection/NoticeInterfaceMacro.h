@@ -34,6 +34,20 @@ NS_INLINE NSDictionary *header(NSString *token) {
     return dictionary;
 }
 
+// 获取消息列表
+#define GetMessageList [NSString stringWithFormat:@"%@/msg/receive",BASE_URL]
+// {"type":"2","page":"1","pageSize":"10","sdate":"","edate":"","searchStr":""}
+NS_INLINE NSDictionary *GetMessageListParameter(NSString *type, NSString *page, NSString *pageSize, NSString *sdate, NSString *edate, NSString *searchStr) {
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+    setObjectForKey(type);
+    setObjectForKey(page);
+    setObjectForKey(pageSize);
+    setObjectForKey(sdate);
+    setObjectForKey(edate);
+    setObjectForKey(searchStr);
+    return dictionary.copy;
+}
+
 //获取公告列表
 #define GetNoticelist_URL ([NSString stringWithFormat:@"%@/notice/list",BASE_URL])
 /**
