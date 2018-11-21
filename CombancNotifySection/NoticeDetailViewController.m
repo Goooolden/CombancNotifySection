@@ -33,7 +33,14 @@
     self.webView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.webView];
     [self.webView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
+        if (@available(iOS 11.0, *)) {
+            make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
+            make.left.equalTo(self.view.mas_safeAreaLayoutGuideLeft);
+            make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight);
+            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
+        } else {
+            make.edges.equalTo(self.view);
+        }
     }];
     [self.webView loadHTMLString:[self.model.content stringByReplacingOccurrencesOfString:@"\n" withString:@""] baseURL:nil];
 }
