@@ -70,6 +70,7 @@
     NSString *author = [NSString stringWithFormat:@"发布人：%@",self.model.userName];
     [body appendFormat:@"<div class=\"time\"> %@ &nbsp %@</div>",author,time];
     //添加主题内容
+    bodyHtml = [bodyHtml stringByReplacingOccurrencesOfString:@"src=\".." withString:[NSString stringWithFormat:@"src=\"%@",[BASE_URL stringByReplacingOccurrencesOfString:@"/micro/oa" withString:@""]]];
     [body appendFormat:@"<div class=\"contentText\">%@</div>", bodyHtml];
     //添加图片
     NSString *onload = @"this.onclick = function() {"
@@ -82,7 +83,7 @@
     }
     //添加附件
     for (NoticeFileImgsModel *model in self.model.files) {
-        NSString *filePath = [NSString stringWithFormat:@"%@%@", BASE_URL, model.path];
+        NSString *filePath = [NSString stringWithFormat:@"%@%@", NewsImageURL, model.path];
         [body appendFormat:@"<a href= %@> %@ </a> <br />",filePath,model.name];
     }
     return body;

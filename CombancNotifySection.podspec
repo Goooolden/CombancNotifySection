@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "CombancNotifySection"
-  s.version      = "0.0.5"
+  s.version      = "0.0.7"
   s.summary      = "通知模块"
 
   # This description is used to generate tags and improve search results.
@@ -80,7 +80,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/Goooolden/CombancNotifySection.git", :tag => "0.0.5" }
+  s.source       = { :git => "https://github.com/Goooolden/CombancNotifySection.git", :tag => "0.0.7" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -105,7 +105,7 @@ Pod::Spec.new do |s|
   #  non-essential files like tests, examples and documentation.
   #
 
-  s.resource  = "CombancNotifySection/CombancNewsDetail.bundle"
+  # s.resource  = "CombancNotifySection/CombancNewsDetail.bundle"
   # s.resources = "Resources/*.png"
 
   # s.preserve_paths = "FilesToSave", "MoreFilesToSave"
