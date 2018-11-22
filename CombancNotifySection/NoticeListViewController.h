@@ -16,6 +16,7 @@ typedef enum NoticeType{
 @interface NoticeListViewController : UIViewController
 
 @property (nonatomic, assign) NoticeType noticeType;
-@property (nonatomic, strong) NSString *token;
+@property (nonatomic, copy  ) NSString *baseUrl;
+@property (nonatomic, copy  ) NSString *token;
 
 @end

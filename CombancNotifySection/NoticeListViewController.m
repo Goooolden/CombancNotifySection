@@ -61,6 +61,10 @@ UISearchBarDelegate>
     [[NSUserDefaults standardUserDefaults] setObject:token forKey:NoticeToken];
 }
 
+- (void)setBaseUrl:(NSString *)baseUrl {
+    [[NSUserDefaults standardUserDefaults] setObject:baseUrl forKey:NoticeBaseUrl];
+}
+
 - (void)configUI {
     self.myTableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.myTableView.delegate = self;
