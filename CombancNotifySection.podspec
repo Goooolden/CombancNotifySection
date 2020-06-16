@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "CombancNotifySection"
-  s.version      = "0.0.7"
+  s.version      = "0.0.10"
   s.summary      = "通知模块"
 
   # This description is used to generate tags and improve search results.
@@ -80,7 +80,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/Goooolden/CombancNotifySection.git", :tag => "0.0.7" }
+  s.source       = { :git => "https://github.com/Goooolden/CombancNotifySection.git", :tag => "0.0.10" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -135,7 +135,7 @@ Pod::Spec.new do |s|
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   s.dependency "Masonry"
   s.dependency "MJExtension"
-  s.dependency "CombancHttpTool"
+  s.dependency "ComHttpTool"
   s.dependency "MJRefresh"
 
 end
